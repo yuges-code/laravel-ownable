@@ -1,13 +1,16 @@
 <?php
 
-namespace Yuges\Package\Tests\Stubs\Models;
+namespace Yuges\Ownable\Tests\Stubs\Models;
 
-use Yuges\Package\Traits\HasTable;
-use Illuminate\Database\Eloquent\Model;
+use Yuges\Package\Models\Model;
+use Yuges\Ownable\Traits\CanOwn;
+use Yuges\Ownable\Interfaces\Owner;
 
-class User extends Model
+class User extends Model implements Owner
 {
-    use HasTable;
+    use CanOwn;
 
     protected $table = 'users';
+
+    protected $guarded = ['id'];
 }
