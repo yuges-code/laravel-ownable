@@ -25,7 +25,7 @@ trait HasOwnerships
         /** @var Model $this */
         $relation = $this->hasMany(Config::getOwnershipClass(Ownership::class), "{$name}_id");
 
-        $relation->getQuery()->where("{$name}_type", $this->getMorphClass());
+        $relation->getQuery()->withAttributes(["{$name}_type" => $this->getMorphClass()]);
 
         return $relation;
     }

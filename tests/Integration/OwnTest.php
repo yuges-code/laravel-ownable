@@ -4,6 +4,7 @@ namespace Yuges\Ownable\Tests\Integration;
 
 use Yuges\Ownable\Tests\TestCase;
 use Yuges\Ownable\Models\Ownership;
+use Illuminate\Support\Facades\Auth;
 use Yuges\Ownable\Tests\Stubs\Models\User;
 use Yuges\Ownable\Tests\Stubs\Models\Post;
 
@@ -17,20 +18,30 @@ class OwnTest extends TestCase
             'password' => 'test',
         ]);
 
+        Auth::setUser($user);
+
         $post = Post::query()->create([
             'title' => 'Post',
         ]);
 
-        $ownership = Ownership::query()->create([
-            'owner_id' => $user->getKey(),
-            'owner_type' => $user->getMorphClass(),
+        if (! $post->isOwn($user)) {
+            $post->own($user);
+        }
+
+        $this->assertDatabaseHas(Ownership::getTableName(), [
             'ownable_id' => $post->getKey(),
             'ownable_type' => $post->getMorphClass(),
+            'owner_id' => $user->getKey(),
+            'owner_type' => $user->getMorphClass(),
         ]);
 
-        $owners = $post->getOwners();
-        $ownables = $user->getOwnables();
+        $post->unown($user);
 
-        dd($owners);
+        $this->assertDatabaseMissing(Ownership::getTableName(), [
+            'ownable_id' => $post->getKey(),
+            'ownable_type' => $post->getMorphClass(),
+            'owner_id' => $user->getKey(),
+            'owner_type' => $user->getMorphClass(),
+        ]);
     }
 }

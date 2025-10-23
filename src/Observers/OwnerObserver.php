@@ -2,22 +2,21 @@
 
 namespace Yuges\Ownable\Observers;
 
-use Yuges\Groupable\Models\Group;
+use Yuges\Ownable\Interfaces\Owner;
+use Illuminate\Database\Eloquent\Model;
 
 class OwnerObserver
 {
-    public function creating(Group $group): void
+    public function deleted(Owner $owner): void
     {
+        if (! $owner instanceof Model) {
+            return;
+        }
 
-    }
+        if (method_exists($owner, 'isForceDeleting') && ! $owner->isForceDeleting()) {
+            return;
+        }
 
-    public function saving(Group $group): void
-    {
-
-    }
-
-    public function deleted(Group $group): void
-    {
-
+        $owner->ownerships()->delete();
     }
 }

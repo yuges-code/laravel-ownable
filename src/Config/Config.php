@@ -4,11 +4,14 @@ namespace Yuges\Ownable\Config;
 
 use Yuges\Package\Enums\KeyType;
 use Illuminate\Support\Collection;
+use Yuges\Ownable\Models\Ownership;
 use Yuges\Ownable\Interfaces\Owner;
 use Yuges\Ownable\Interfaces\Ownable;
-use Yuges\Ownable\Models\Ownership;
-use Yuges\Ownable\Observers\OwnableObserver;
 use Yuges\Ownable\Observers\OwnerObserver;
+use Yuges\Ownable\Actions\SyncOwnersAction;
+use Yuges\Ownable\Observers\OwnableObserver;
+use Yuges\Ownable\Actions\AttachOwnersAction;
+use Yuges\Ownable\Actions\DetachOwnersAction;
 use Yuges\Ownable\Observers\OwnershipObserver;
 
 class Config extends \Yuges\Package\Config\Config
@@ -109,5 +112,52 @@ class Config extends \Yuges\Package\Config\Config
     public static function getOwnershipObserverClass(mixed $default = null): string
     {
         return self::get('models.ownership.observer', $default);
+    }
+
+    public static function getPermissionsOwnAuto(mixed $default = false): bool
+    {
+        return self::get('permissions.own.auto', $default);
+    }
+
+    public static function getSyncOwnersAction(
+        Ownable $ownable,
+        mixed $default = null
+    ): SyncOwnersAction
+    {
+        return self::getSyncOwnersActionClass($default)::create($ownable);
+    }
+
+    /** @return class-string<SyncOwnersAction> */
+    public static function getSyncOwnersActionClass(mixed $default = null): string
+    {
+        return self::get('actions.sync', $default);
+    }
+
+    public static function getAttachOwnersAction(
+        Ownable $ownable,
+        mixed $default = null
+    ): AttachOwnersAction
+    {
+        return self::getAttachOwnersActionClass($default)::create($ownable);
+    }
+
+    /** @return class-string<AttachOwnersAction> */
+    public static function getAttachOwnersActionClass(mixed $default = null): string
+    {
+        return self::get('actions.attach', $default);
+    }
+
+    public static function getDetachOwnersAction(
+        Ownable $ownable,
+        mixed $default = null
+    ): DetachOwnersAction
+    {
+        return self::getDetachOwnersActionClass($default)::create($ownable);
+    }
+
+    /** @return class-string<DetachOwnersAction> */
+    public static function getDetachOwnersActionClass(mixed $default = null): string
+    {
+        return self::get('actions.detach', $default);
     }
 }

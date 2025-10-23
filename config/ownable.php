@@ -48,15 +48,22 @@ return [
             'table' => 'ownerships',
             'class' => Yuges\Ownable\Models\Ownership::class,
             'relation' => [
-                'name' => 'groupable',
+                'name' => 'ownership',
             ],
             'observer' => Yuges\Ownable\Observers\OwnershipObserver::class,
         ],
     ],
 
+    'permissions' => [
+        'own' => [
+            'auto' => true,
+        ],
+    ],
+
+
     'actions' => [
-        'sync' => Yuges\Groupable\Actions\SyncGroupsAction::class,
-        'attach' => Yuges\Groupable\Actions\AttachGroupsAction::class,
-        'detach' => Yuges\Groupable\Actions\DetachGroupsAction::class,
+        'sync' => Yuges\Ownable\Actions\SyncOwnersAction::class,
+        'attach' => Yuges\Ownable\Actions\AttachOwnersAction::class,
+        'detach' => Yuges\Ownable\Actions\DetachOwnersAction::class,
     ],
 ];
