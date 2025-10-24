@@ -60,7 +60,6 @@ return [
         ],
     ],
 
-
     'actions' => [
         'sync' => Yuges\Ownable\Actions\SyncOwnersAction::class,
         'attach' => Yuges\Ownable\Actions\AttachOwnersAction::class,
