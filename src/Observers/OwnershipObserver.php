@@ -6,17 +6,17 @@ use Yuges\Ownable\Models\Ownership;
 
 class OwnershipObserver
 {
-    public function creating(Ownership $group): void
+    public function creating(Ownership $ownership): void
     {
 
     }
 
-    public function saving(Ownership $group): void
+    public function saving(Ownership $ownership): void
     {
 
     }
 
-    public function deleted(Ownership $group): void
+    public function deleted(Ownership $ownership): void
     {
 
     }

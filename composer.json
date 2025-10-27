@@ -6,7 +6,7 @@
         "yuges",
         "owners",
         "laravel",
-        "template",
+        "package",
         "ownerships"
     ],
     "homepage": "https://yuges-code.github.io/laravel-ownable",
