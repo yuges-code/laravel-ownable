@@ -11,9 +11,15 @@ class OwnableObserver
     {
         $options = $ownable->ownable();
 
-        if ($options->auto) {
-            $ownable->attachOwner();
+        if (! $options->auto) {
+            return;
         }
+
+        if ($ownable->isOwn()) {
+            return;
+        }
+
+        $ownable->attachOwner();
     }
 
     public function deleted(Ownable $ownable): void

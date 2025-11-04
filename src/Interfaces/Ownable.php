@@ -18,6 +18,8 @@ interface Ownable
 
     public function unown(Owner $owner): static;
 
+    public function isOwn(?Owner $owner = null): bool;
+
     public function attachOwner(?Owner $owner = null): static;
 
     public function attachOwners(?Collection $owners = null): static;

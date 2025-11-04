@@ -43,10 +43,11 @@ trait HasOwners
         return $this->detachOwner($owner);
     }
 
-    public function isOwn(Owner $owner): bool
+    public function isOwn(?Owner $owner = null): bool
     {
         $pivot = new Ownership();
         $relation = $pivot->owner();
+        $owner ??= $this->defaultOwner();
 
         $attributes = [
             $relation->getForeignKeyName() => $owner instanceof Model ? $owner->getKey() : null,
