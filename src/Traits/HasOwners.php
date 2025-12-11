@@ -2,18 +2,21 @@
 
 namespace Yuges\Ownable\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Yuges\Ownable\Config\Config;
 use Illuminate\Support\Collection;
 use Yuges\Ownable\Models\Ownership;
 use Yuges\Ownable\Interfaces\Owner;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Yuges\Ownable\Options\OwnableOptions;
 use Yuges\Ownable\Observers\OwnableObserver;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait HasOwners
 {
     use HasOwnerships;
+
+    protected ?Relation $createdByRelation = null;
 
     public function ownable(): OwnableOptions
     {
@@ -111,5 +114,17 @@ trait HasOwners
         $owner = Auth::user();
 
         return $owner;
+    }
+
+    public function getCreatingRelation(): ?Relation
+    {
+        return $this->createdByRelation;
+    }
+
+    public function setCreatingRelation(?Relation $relation = null): self
+    {
+        $this->createdByRelation = $relation;
+
+        return $this;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Yuges\Ownable\Observers;
 
+use Yuges\Ownable\Config\Config;
+use Yuges\Ownable\Models\Ownership;
 use Yuges\Ownable\Interfaces\Ownable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +16,12 @@ class OwnableObserver
         if (! $options->auto) {
             return;
         }
+
+        if ($ownable->getCreatingRelation()?->getPivotClass() === Config::getOwnershipClass(Ownership::class)) {
+            $ownable->setCreatingRelation(null);
+
+            return;
+        };
 
         if ($ownable->isOwn()) {
             return;

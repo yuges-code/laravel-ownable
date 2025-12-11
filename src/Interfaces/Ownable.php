@@ -5,6 +5,7 @@ namespace Yuges\Ownable\Interfaces;
 use Illuminate\Support\Collection;
 use Yuges\Ownable\Options\OwnableOptions;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 interface Ownable
 {
@@ -31,4 +32,8 @@ interface Ownable
     public function syncOwners(Collection $owners): static;
 
     public function defaultOwner(): ?Owner;
+
+    public function getCreatingRelation(): ?Relation;
+
+    public function setCreatingRelation(?Relation $relation = null): self;
 }

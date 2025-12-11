@@ -28,6 +28,10 @@ class OwnTest extends TestCase
             $post->own($user);
         }
 
+        $posts = $user->posts()->create([
+            'title' => 'ahahahahha',
+        ]);
+
         $this->assertDatabaseHas(Ownership::getTableName(), [
             'ownable_id' => $post->getKey(),
             'ownable_type' => $post->getMorphClass(),
